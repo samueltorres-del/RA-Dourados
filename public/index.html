@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RA Dourados — Sistema de Atendimentos</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>RA Dourados</h1>
+    <span>Registro de Atendimentos</span>
+  </div>
+  <nav>
+    <button class="nav-item active" onclick="showPage('dashboard',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" onclick="showPage('pessoas',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Pessoas
+    </button>
+    <button class="nav-item" onclick="showPage('atendimentos',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      Atendimentos
+    </button>
+    <button class="nav-item" onclick="showPage('irmaos',this); loadIrmaosSPA()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Irmãos Form
+    </button>
+    <button class="nav-item" onclick="showPage('composicao',this); loadComposicaoSPA()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+      Planilha
+    </button>
+    <button class="nav-item" onclick="showPage('novo-atend',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Novo Atendimento
+    </button>
+    <button class="nav-item" onclick="showPage('relatorios',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      Relatórios
+    </button>
+  </nav>
+  <div class="sidebar-footer">v1.0 — SQLite + Node.js</div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <h2 id="page-title">Dashboard</h2>
+    <div class="topbar-right">
+      <span id="top-date" style="font-size:12px;color:#6b7280"></span>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page active">
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-icon blue">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <div><div class="metric-val" id="m-pessoas">—</div><div class="metric-lbl">Pessoas cadastradas</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon green">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        </div>
+        <div><div class="metric-val" id="m-total">—</div><div class="metric-lbl">Total de atendimentos</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon amber">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div><div class="metric-val" id="m-abertos">—</div><div class="metric-lbl">Em aberto</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon green">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div><div class="metric-val" id="m-conc">—</div><div class="metric-lbl">Concluídos</div></div>
+      </div>
+    </div>
+    <div class="charts-grid">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Atendimentos por status</span></div>
+        <div id="chart-status"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Atendimentos por tipo</span></div>
+        <div id="chart-tipo"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Últimos atendimentos</span>
+        <button class="btn btn-sm" onclick="showPage('atendimentos',document.querySelectorAll('.nav-item')[2])">Ver todos</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Data</th><th>Pessoa</th><th>Tipo</th><th>Responsável</th><th>Status</th></tr></thead>
+          <tbody id="dash-table"><tr><td colspan="5" class="loading">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESSOAS -->
+  <div id="page-pessoas" class="page">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Pessoas cadastradas</span>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-pessoa')">+ Nova pessoa</button>
+      </div>
+      <div class="search-bar">
+        <input id="busca-pessoas" placeholder="Buscar por nome, CPF ou telefone..." oninput="debounce(loadPessoas,400)()">
+        <button class="btn btn-green btn-sm" onclick="exportarCSVPessoas()">Exportar CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Nome</th><th>CPF</th><th>Telefone</th><th>Município</th><th>Atendimentos</th><th></th></tr></thead>
+          <tbody id="pessoas-table"><tr><td colspan="7" class="loading">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+      <div id="pessoas-pag" style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- ATENDIMENTOS -->
+  <div id="page-atendimentos" class="page">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Registros de atendimento</span>
+        <button class="btn btn-primary btn-sm" onclick="showPage('novo-atend',document.querySelectorAll('.nav-item')[3])">+ Novo RA</button>
+      </div>
+      <div class="search-bar">
+        <input id="busca-at" placeholder="Buscar por pessoa, descrição ou responsável..." oninput="debounce(loadAtendimentos,400)()">
+        <select id="filt-status" onchange="loadAtendimentos()">
+          <option value="">Todos os status</option>
+          <option>Aberto</option><option>Em andamento</option><option>Concluído</option><option>Cancelado</option>
+        </select>
+        <select id="filt-tipo" onchange="loadAtendimentos()">
+          <option value="">Todos os tipos</option>
+          <option>Triagem</option><option>Orientação</option><option>Encaminhamento</option>
+          <option>Visita domiciliar</option><option>Reunião</option><option>Outro</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Data</th><th>Pessoa</th><th>Tipo</th><th>Responsável</th><th>Status</th><th>Unidade</th><th></th></tr></thead>
+          <tbody id="at-table"><tr><td colspan="8" class="loading">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+      <div id="at-pag" style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- NOVO ATENDIMENTO -->
+  <div id="page-novo-atend" class="page">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Novo registro de atendimento (RA)</span></div>
+      <div id="msg-at"></div>
+      <div class="grid3">
+        <div class="form-group">
+          <label>Pessoa *</label>
+          <select id="f-pessoa-id"><option value="">— selecione —</option></select>
+        </div>
+        <div class="form-group">
+          <label>Data do atendimento *</label>
+          <input type="date" id="f-data">
+        </div>
+        <div class="form-group">
+          <label>Unidade</label>
+          <select id="f-unidade">
+            <option>CRAS</option><option>CREAS</option><option>Secretaria Social</option><option>Outra</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid3">
+        <div class="form-group">
+          <label>Tipo de atendimento</label>
+          <select id="f-tipo">
+            <option>Triagem</option><option>Orientação</option><option>Encaminhamento</option>
+            <option>Visita domiciliar</option><option>Reunião</option><option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Responsável / Técnico</label>
+          <input type="text" id="f-responsavel" placeholder="Nome do responsável">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="f-status">
+            <option>Aberto</option><option>Em andamento</option><option>Concluído</option><option>Cancelado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descrição do atendimento *</label>
+        <textarea id="f-descricao" placeholder="Descreva o atendimento, demandas apresentadas e situação atual..." style="min-height:110px"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Providências e encaminhamentos</label>
+        <textarea id="f-providencias" placeholder="Quais providências foram tomadas? Encaminhamentos realizados..." style="min-height:80px"></textarea>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="salvarAtend()">Registrar atendimento</button>
+        <button class="btn" onclick="limparFormAt()">Limpar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATÓRIOS -->
+  <div id="page-relatorios" class="page">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Filtros para exportação</span></div>
+      <div class="grid3">
+        <div class="form-group"><label>Data de</label><input type="date" id="rel-de"></div>
+        <div class="form-group"><label>Data até</label><input type="date" id="rel-ate"></div>
+        <div class="form-group"><label>Status</label>
+          <select id="rel-status">
+            <option value="">Todos</option><option>Aberto</option><option>Em andamento</option><option>Concluído</option><option>Cancelado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Responsável</label><input type="text" id="rel-resp" placeholder="Deixe em branco para todos"></div>
+      <div class="btn-group">
+        <button class="btn btn-green" onclick="exportCSVFiltrado()">Exportar CSV</button>
+        <button class="btn" style="background:#c0392b;color:#fff;border-color:#c0392b" onclick="window.print()">Imprimir / PDF</button>
+        <button class="btn" style="background:#25D366;color:#fff;border-color:#25D366" onclick="enviarWA()">Resumo WhatsApp</button>
+        <button class="btn" style="background:#0072c6;color:#fff;border-color:#0072c6" onclick="enviarEmail()">Enviar por e-mail</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Atendimentos por tipo</span></div>
+      <div id="rel-por-tipo"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Histórico mensal</span></div>
+      <div id="rel-por-mes"></div>
+    </div>
+  </div>
+</main>
+
+  <!-- IRMÃOS CADASTRADOS (SPA) -->
+  <div id="page-irmaos" class="page">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Irmãos Form - Cadastros Enviados</span>
+        <a href="cadastro-irmaos.html" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none">🔗 Ver/Enviar Formulário (Local)</a>
+      </div>
+      <div style="background: #e0f2fe; color: #0369a1; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 5px solid #0284c7;">
+        <strong>🌍 Transformar em Link Global Invisível (Sem bloqueios):</strong><br>
+        1. Abra uma nova aba preta no terminal do servidor do sistema.<br>
+        2. Digite <code>npm run online</code> e dê Enter.<br>
+        3. Ele vai cuspir um link limpo parecido com <em>https://algum-nome.lhr.life</em> (não pedirá mais confirmação de IP nem telas de bloqueio!).<br>
+        4. Copie o link, adicione <code>/cadastro-irmaos.html</code> no final e mande no grupo do WhatsApp dos irmãos! <br><i>(O cadastro cairá direto aqui na tela!)</i>
+      </div>
+      <div class="search-bar" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <input type="text" id="search-irmaos" placeholder="Buscar por nome, grupo..." oninput="debounce(loadIrmaosSPA,400)()" style="flex:1; min-width:200px;">
+        <select id="filterCidade-irmaos" onchange="loadIrmaosSPA()">
+            <option value="">Todas as Cidades</option>
+            <option value="Dourados">Dourados</option>
+            <option value="Caarapó">Caarapó</option>
+            <option value="Itaporã">Itaporã</option>
+            <option value="Rio Brilhante">Rio Brilhante</option>
+            <option value="Fátima do Sul">Fátima do Sul</option>
+            <option value="Glória de Dourados">Glória de Dourados</option>
+            <option value="Outra">Outra</option>
+        </select>
+        <button onclick="exportRelatorioIrmaos()" class="btn btn-primary" style="background:#10b981;">📥 Exportar Planilha Excel</button>
+      </div>
+      <div id="grid-irmaos" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-top: 20px;">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPOSIÇÃO RA (PLANILHA) SPA -->
+  <div id="page-composicao" class="page">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Composição da RA Dourados (Matriz da Planilha)</span>
+      </div>
+      <div style="margin-bottom: 20px; color: #555;">Esta tela puxa diretamente os dados estáticos declarados no arquivo <b>Composição RA - Dourados-2026.csv</b>.</div>
+      <div id="grid-composicao" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NOVA PESSOA -->
+<div id="modal-pessoa" class="modal-overlay" onclick="if(event.target===this)closeModal('modal-pessoa')">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-pessoa-title">Nova pessoa</h3>
+      <button class="close-btn" onclick="closeModal('modal-pessoa')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="msg-pessoa"></div>
+      <input type="hidden" id="p-id">
+      <div class="grid2">
+        <div class="form-group" style="grid-column:1/-1"><label>Nome completo *</label><input id="p-nome" placeholder="Nome completo"></div>
+        <div class="form-group"><label>CPF</label><input id="p-cpf" placeholder="000.000.000-00" oninput="maskCPF(this)"></div>
+        <div class="form-group"><label>Data de nascimento</label><input id="p-nasc" type="date"></div>
+        <div class="form-group"><label>Telefone</label><input id="p-tel" placeholder="(67) 99999-9999" oninput="maskTel(this)"></div>
+        <div class="form-group"><label>E-mail</label><input id="p-email" placeholder="email@exemplo.com"></div>
+        <div class="form-group" style="grid-column:1/-1"><label>Endereço</label><input id="p-end" placeholder="Rua, número"></div>
+        <div class="form-group"><label>Bairro</label><input id="p-bairro" placeholder="Bairro"></div>
+        <div class="form-group"><label>Município</label><input id="p-municipio" value="Dourados"></div>
+        <div class="form-group" style="grid-column:1/-1"><label>Observações</label><textarea id="p-obs" placeholder="Informações adicionais..."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-red btn-sm" id="btn-del-pessoa" style="display:none;margin-right:auto" onclick="deletarPessoa()">Excluir</button>
+      <button class="btn" onclick="closeModal('modal-pessoa')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarPessoa()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL VER ATENDIMENTO -->
+<div id="modal-atend" class="modal-overlay" onclick="if(event.target===this)closeModal('modal-atend')">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Detalhes do atendimento</h3>
+      <button class="close-btn" onclick="closeModal('modal-atend')">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-atend-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-red btn-sm" style="margin-right:auto" onclick="deletarAtend()">Excluir</button>
+      <button class="btn" onclick="closeModal('modal-atend')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Script para as rotas SPA dos Irmãos
+  async function loadIrmaosSPA() {
+    const q = document.getElementById('search-irmaos') ? document.getElementById('search-irmaos').value : '';
+    const c = document.getElementById('filterCidade-irmaos') ? document.getElementById('filterCidade-irmaos').value : '';
+    try {
+      const res = await fetch(`/api/irmaos?q=${encodeURIComponent(q)}&municipio=${encodeURIComponent(c)}`);
+      const { data } = await res.json();
+      
+      const grid = document.getElementById('grid-irmaos');
+      if (data.length === 0) {
+        grid.innerHTML = '<p>Nenhum registro encontrado (ou ninguém preencheu o form ainda).</p>';
+        return;
+      }
+      grid.innerHTML = data.map(p => `
+        <div class="card" style="position:relative; background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <button onclick="deletarIrmaoSPA(${p.id})" style="position:absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer;">X</button>
+          <h3 style="margin: 0 0 10px 0; color: #3b82f6;">${p.nome}</h3>
+          <p style="margin: 4px 0;"><span style="display:inline-block; padding: 3px 8px; background: #e2e8f0; border-radius: 4px; font-weight: bold; font-size: 0.85em;">${p.grupo}</span></p>
+          <p style="margin: 4px 0; color: #555;"><strong>CPF:</strong> ${p.cpf || '-'}</p>
+          <p style="margin: 4px 0; color: #555;"><strong>Data Nasc:</strong> ${p.nascimento ? p.nascimento.split('-').reverse().join('/') : '-'}</p>
+          <p style="margin: 4px 0; color: #555;"><strong>Endereço:</strong> ${p.endereco || '-'} - ${p.bairro || '-'}</p>
+          <p style="margin: 4px 0; color: #555;"><strong>Cidade:</strong> ${p.cidade || '-'}</p>
+          <p style="margin: 4px 0; color: #555;"><strong>Telefone:</strong> ${p.telefone || '-'}</p>
+          <p style="margin: 4px 0; color: #555;"><strong>E-mail:</strong> ${p.email || '-'}</p>
+        </div>
+      `).join('');
+    } catch(e) { console.error(e); }
+  }
+
+  function exportRelatorioIrmaos() {
+    const q = document.getElementById('search-irmaos') ? document.getElementById('search-irmaos').value : '';
+    const c = document.getElementById('filterCidade-irmaos') ? document.getElementById('filterCidade-irmaos').value : '';
+    window.location.href = `/api/irmaos/export?q=${encodeURIComponent(q)}&municipio=${encodeURIComponent(c)}`;
+  }
+
+  async function deletarIrmaoSPA(id) {
+    if(confirm('Tem certeza que deseja remover este membro?')) {
+      await fetch(`/api/irmaos/${id}`, { method: 'DELETE' });
+      loadIrmaosSPA();
+    }
+  }
+
+  async function loadComposicaoSPA() {
+    try {
+      const res = await fetch('/api/irmaos/composicao');
+      const data = await res.json();
+      const grid = document.getElementById('grid-composicao');
+      if (data.length === 0) {
+        grid.innerHTML = '<p>Planilha não encontrada ou vazia.</p>';
+        return;
+      }
+      grid.innerHTML = data.map(g => `
+        <div class="card" style="background:#fff; border: 1px solid #e2e8f0; border-radius:8px; padding:0; overflow:hidden;">
+          <div style="background:#f1f5f9; padding: 10px 15px; font-weight:bold; border-bottom:1px solid #e2e8f0; color:#334155;">${g.grupo}</div>
+          <div style="padding:15px;">
+            <ul style="margin:0; padding-left:15px; color:#475569; font-size:0.95em;">
+              ${g.membros.map(m => `<li style="margin-bottom:5px;">${m}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('');
+    } catch(e) { console.error(e); }
+  }
+</script>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+node_modules/
+.env
+.npm/
+db/*.json
+!db/database.js

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro RA Dourados - Irmãos e GTs</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --primary: #3b82f6; 
+      --primary-hover: #2563eb; --text: #f8fafc; --text-muted: #94a3b8;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg); color: var(--text);
+      margin: 0; padding: 20px;
+      display: flex; justify-content: center; align-items: center; min-height: 100vh;
+    }
+    .container {
+      background: #1e293b; padding: 30px; border-radius: 12px;
+      width: 100%; max-width: 450px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    h2 { text-align: center; margin-top: 0; color: #3b82f6; }
+    p.subtitle { text-align: center; color: #94a3b8; font-size: 0.9em; margin-bottom: 25px; }
+    .grupo { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.9em; }
+    input, select {
+      width: 100%; padding: 12px; border-radius: 6px;
+      border: 1px solid #334155; background: #0f172a; color: #f8fafc;
+      box-sizing: border-box; font-size: 1em;
+    }
+    input:focus, select:focus { outline: none; border-color: #3b82f6; }
+    button {
+      width: 100%; padding: 14px; background: #3b82f6; color: white;
+      border: none; border-radius: 6px; font-weight: bold; cursor: pointer;
+      font-size: 1.05em; transition: background 0.2s; margin-top: 10px;
+    }
+    button:hover { background: #2563eb; }
+    .success { display: none; background: #059669; padding: 15px; border-radius: 6px; text-align: center; margin-top:20px; }
+  </style>
+</head>
+<body>
+
+<div class="container" id="form-container">
+  <h2>RA Dourados</h2>
+  <p class="subtitle">Atualização de Cadastro - Membros da RA e GTs</p>
+
+  <form id="form-irmaos">
+    <div class="grupo">
+      <label>Nome Completo</label>
+      <input type="text" id="nome" required placeholder="Digite o seu nome">
+    </div>
+
+    <div class="grupo">
+      <label>CPF</label>
+      <input type="text" id="cpf" required placeholder="000.000.000-00">
+    </div>
+
+    <div class="grupo">
+      <label>Data de Nascimento</label>
+      <input type="date" id="nascimento" required>
+    </div>
+
+    <div class="grupo">
+      <label>Celular (WhatsApp)</label>
+      <input type="tel" id="telefone" required placeholder="(XX) 9XXXX-XXXX">
+    </div>
+
+    <div class="grupo">
+      <label>E-mail</label>
+      <input type="email" id="email" placeholder="Seu e-mail de contato">
+    </div>
+
+    <div class="grupo">
+      <label>Endereço Completo</label>
+      <input type="text" id="endereco" required placeholder="Rua, Número, Complemento">
+    </div>
+
+    <div class="grupo">
+      <label>Bairro</label>
+      <input type="text" id="bairro" required placeholder="Seu bairro">
+    </div>
+
+    <div class="grupo">
+      <label>Cidade / Município</label>
+      <select id="cidade" required>
+        <option value="">Selecione sua cidade</option>
+        <option value="Dourados">Dourados</option>
+        <option value="Caarapó">Caarapó</option>
+        <option value="Itaporã">Itaporã</option>
+        <option value="Rio Brilhante">Rio Brilhante</option>
+        <option value="Fátima do Sul">Fátima do Sul</option>
+        <option value="Glória de Dourados">Glória de Dourados</option>
+        <option value="Outra">Outra</option>
+      </select>
+    </div>
+
+    <div class="grupo">
+      <label>Grupo de Trabalho / Cargo</label>
+      <select id="grupo" required>
+        <option value="">Selecione seu cargo/função</option>
+        <optgroup label="Administração / Liderança">
+            <option value="Anciães da RA">Ancião da RA</option>
+            <option value="Diáconos da RA">Diácono da RA</option>
+            <option value="Coordenador da RA">Coordenador da RA</option>
+            <option value="Secretário da RA">Secretário da RA</option>
+        </optgroup>
+        <optgroup label="Grupos de Trabalho (GTS)">
+            <option value="GT Presidência">GT Presidência</option>
+            <option value="GT Secretária">GT Secretária</option>
+            <option value="GT Jurídico">GT Jurídico</option>
+            <option value="GT Tesouraria">GT Tesouraria</option>
+            <option value="GT Contabilidade">GT Contabilidade</option>
+            <option value="GT Compras">GT Compras</option>
+            <option value="GT Treinamento">GT Treinamento</option>
+            <option value="GT Distribuidora">GT Distribuidora</option>
+            <option value="GT Conselho Fical">GT Conselho Fical</option>
+            <option value="GT Informática">GT Informática</option>
+            <option value="GT Engenharia">GT Engenharia</option>
+            <option value="GT Segurança do Trabalho">GT Segurança do Trabalho</option>
+            <option value="GT Patrimônio Imóveis">GT Patrimônio Imóveis</option>
+            <option value="GT ATIVO IMOBILIZADO">GT Ativo Imobilizado</option>
+            <option value="GT Voluntários">GT Voluntários</option>
+            <option value="GT Manutenção Preventiva">GT Manutenção Preventiva</option>
+        </optgroup>
+        <optgroup label="Departamentos Especiais (RMS)">
+            <option value="DEPAC">DEPAC</option>
+            <option value="GL&C-GRUPO LOGISTICA E CONSTRUÇÃO">Grupo Logística e Construção (GL&C)</option>
+            <option value="DEPTO DE LGPD">Depto de LGPD</option>
+            <option value="GT - ARQUIVO DIGITAL">GT - Arquivo Digital</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <button type="submit" id="btn-submit">Enviar Cadastro</button>
+  </form>
+
+  <div class="success" id="msg-sucesso">
+    <strong>✅ Recebido!</strong><br><br>Seu cadastro foi registrado com sucesso. Deus abençoe!
+  </div>
+</div>
+
+<script>
+  document.getElementById('form-irmaos').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btn-submit');
+    btn.textContent = 'Enviando...'; btn.disabled = true;
+
+    const data = {
+      nome: document.getElementById('nome').value,
+      cpf: document.getElementById('cpf').value,
+      nascimento: document.getElementById('nascimento').value,
+      telefone: document.getElementById('telefone').value,
+      email: document.getElementById('email').value,
+      endereco: document.getElementById('endereco').value,
+      bairro: document.getElementById('bairro').value,
+      cidade: document.getElementById('cidade').value,
+      grupo: document.getElementById('grupo').value,
+    };
+
+    try {
+      const res = await fetch('/api/irmaos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        document.getElementById('form-irmaos').style.display = 'none';
+        document.getElementById('msg-sucesso').style.display = 'block';
+      } else {
+        alert('Erro ao enviar cadastro. Tente novamente.');
+      }
+    } catch (err) {
+      alert('Erro de conexão.');
+    } finally {
+      btn.textContent = 'Enviar Cadastro'; btn.disabled = false;
+    }
+  });
+
+  document.getElementById('telefone').addEventListener('input', function (e) {
+    var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+    e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+  });
+
+  document.getElementById('cpf').addEventListener('input', function (e) {
+    var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+    e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + (x[3] ? '.'  + x[3] : '') + (x[4] ? '-' + x[4] : '');
+  });
+</script>
+
+</body>
+</html>
