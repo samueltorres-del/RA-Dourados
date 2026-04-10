@@ -28,6 +28,20 @@ function maskTel(el) {
   el.value = v;
 }
 
+function sendWaRequestUpdate(telefone, nome) {
+  let domain = window.location.origin;
+  if(domain.includes('localhost') || domain.includes('127.0.0.1') || domain.includes('file:')) {
+    let cached = localStorage.getItem('tunnelUrl');
+    let promptUrl = prompt("Você está no sistema LOCAL.\nPara que os irmãos consigam acessar pelo celular, cole o link PÚBLICO do túnel que piscou na tela preta do iniciar-sistema (ex: https://axzbcd.lhr.life):", cached || "");
+    if (!promptUrl) return; 
+    promptUrl = promptUrl.replace(/\/$/, ""); 
+    localStorage.setItem('tunnelUrl', promptUrl);
+    domain = promptUrl;
+  }
+  const text = 'A Paz de Deus! Irmão(ã) ' + nome + ', acesse o link a seguir para atualizar/confirmar o seu cadastro de grupos e GTs na RA Dourados: \n\n' + domain + '/ra-dourados-atualizacao-cadastros-grupos-gts.html';
+  window.open('https://api.whatsapp.com/send?phone=55' + (telefone||'').replace(/\D/g, '') + '&text=' + encodeURIComponent(text));
+}
+
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -110,7 +124,8 @@ async function loadPessoas() {
       <td>${p.telefone||'—'}</td>
       <td>${p.municipio||'—'}</td>
       <td><span class="badge badge-blue">${p.total_atendimentos}</span></td>
-      <td class="td-actions">
+      <td class="td-actions" style="display:flex;gap:4px;">
+        <button class="btn btn-sm" style="background:#25D366;color:#fff;border:none;padding: 4px 8px;" title="Pedir Atualização via WhatsApp" onclick="sendWaRequestUpdate('${p.telefone||''}', \`${p.nome}\`)">📲 WA</button>
         <button class="btn btn-sm" onclick="verPessoa(${p.id})">Ver</button>
         <button class="btn btn-sm" onclick="editarPessoa(${p.id})">Editar</button>
       </td>

@@ -19,7 +19,7 @@ async function getNextId(modelName) {
   const result = await Counter.findByIdAndUpdate(
     modelName,
     { $inc: { seq: 1 } },
-    { new: true, upsert: true }
+    { returnDocument: 'after', upsert: true }
   );
   return result.seq;
 }
@@ -143,7 +143,7 @@ const Pessoas = {
     const p = await PessoaModel.findOneAndUpdate(
       { id: Number(id) }, 
       { ...data, nome: data.nome.trim(), atualizado_em: now() }, 
-      { new: true }
+      { returnDocument: 'after' }
     );
     if (!p) return false;
     await logHistorico('pessoas', id, 'UPDATE', data);
@@ -253,7 +253,7 @@ const Atendimentos = {
     const a = await AtendimentoModel.findOneAndUpdate(
       { id: Number(id) },
       { ...data, pessoa_id: Number(data.pessoa_id), atualizado_em: now() },
-      { new: true }
+      { returnDocument: 'after' }
     );
     if (!a) return false;
     await logHistorico('atendimentos', id, 'UPDATE', data);
@@ -294,7 +294,7 @@ const Irmaos = {
     const i = await IrmaoModel.findOneAndUpdate(
       { id: Number(id) },
       { ...data, nome: data.nome.trim(), atualizado_em: now() },
-      { new: true }
+      { returnDocument: 'after' }
     );
     if (!i) return false;
     await logHistorico('irmaos', id, 'UPDATE', data);

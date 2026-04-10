@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro RA Dourados - Irmãos e GTs</title>
+  <title>RA Dourados - Atualização de cadastros grupos GTs</title>
   <style>
     :root {
       --bg: #0f172a; --surface: #1e293b; --primary: #3b82f6; 
@@ -124,6 +124,7 @@
             <option value="GT Manutenção Preventiva">GT Manutenção Preventiva</option>
         </optgroup>
         <optgroup label="Departamentos Especiais (RMS)">
+            <option value="CNS">CNS - Conselho Nacional de Segurança</option>
             <option value="DEPAC">DEPAC</option>
             <option value="GL&C-GRUPO LOGISTICA E CONSTRUÇÃO">Grupo Logística e Construção (GL&C)</option>
             <option value="DEPTO DE LGPD">Depto de LGPD</option>
@@ -138,6 +139,8 @@
   <div class="success" id="msg-sucesso">
     <strong>✅ Recebido!</strong><br><br>Seu cadastro foi registrado com sucesso. Deus abençoe!
   </div>
+
+
 </div>
 
 <script>
@@ -186,6 +189,8 @@
     var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
     e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + (x[3] ? '.'  + x[3] : '') + (x[4] ? '-' + x[4] : '');
   });
+
+
 </script>
 
 </body>
