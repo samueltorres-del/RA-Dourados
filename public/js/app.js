@@ -29,15 +29,7 @@ function maskTel(el) {
 }
 
 function sendWaRequestUpdate(telefone, nome) {
-  let domain = window.location.origin;
-  if(domain.includes('localhost') || domain.includes('127.0.0.1') || domain.includes('file:')) {
-    let cached = localStorage.getItem('tunnelUrl');
-    let promptUrl = prompt("Você está no sistema LOCAL.\nPara que os irmãos consigam acessar pelo celular, cole o link PÚBLICO do túnel que piscou na tela preta do iniciar-sistema (ex: https://axzbcd.lhr.life):", cached || "");
-    if (!promptUrl) return; 
-    promptUrl = promptUrl.replace(/\/$/, ""); 
-    localStorage.setItem('tunnelUrl', promptUrl);
-    domain = promptUrl;
-  }
+  const domain = 'https://ra-dourados.onrender.com';
   const text = 'A Paz de Deus! Irmão(ã) ' + nome + ', acesse o link a seguir para atualizar/confirmar o seu cadastro de grupos e GTs na RA Dourados: \n\n' + domain + '/ra-dourados-atualizacao-cadastros-grupos-gts.html';
   window.open('https://api.whatsapp.com/send?phone=55' + (telefone||'').replace(/\D/g, '') + '&text=' + encodeURIComponent(text));
 }
