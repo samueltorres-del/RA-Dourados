@@ -9,6 +9,17 @@ router.get('/', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+router.get('/debug-db', (req, res) => {
+  const uri = process.env.MONGO_URI;
+  res.json({
+    temURI: !!uri,
+    comecaCom: uri ? uri.substring(0, 10) : null,
+    temAspas: uri ? (uri.includes('"') || uri.includes("'")) : false,
+    estadoMongoose: require('mongoose').connection.readyState,
+    msg: "0=Disconnected, 1=Connected, 2=Connecting, 3=Disconnecting"
+  });
+});
+
 router.get('/composicao', (req, res) => {
   const fs = require('fs');
   const path = require('path');
