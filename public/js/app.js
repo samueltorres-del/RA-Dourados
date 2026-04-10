@@ -29,7 +29,7 @@ function maskTel(el) {
 }
 
 function sendWaRequestUpdate(telefone, nome) {
-  const domain = 'https://ra-dourados.onrender.com';
+  const domain = 'https://ra-dourados-1.onrender.com';
   const text = 'A Paz de Deus! Irmão(ã) ' + nome + ', acesse o link a seguir para atualizar/confirmar o seu cadastro de grupos e GTs na RA Dourados: \n\n' + domain + '/ra-dourados-atualizacao-cadastros-grupos-gts.html';
   window.open('https://api.whatsapp.com/send?phone=55' + (telefone||'').replace(/\D/g, '') + '&text=' + encodeURIComponent(text));
 }
