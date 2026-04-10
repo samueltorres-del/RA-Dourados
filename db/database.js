@@ -1,8 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-// Tenta usar a string do .env, caso falhe (em debug), levanta erro limpo
-const MONGODB_URI = process.env.MONGO_URI;
+// Tenta usar a string do .env ou a string direta conectada
+const MONGODB_URI = process.env.MONGO_URI || "mongodb://samueltorres_db_user:Iqa85CVqbTEYOQDt@ac-mozswk9-shard-00-00.lpqipgc.mongodb.net:27017,ac-mozswk9-shard-00-01.lpqipgc.mongodb.net:27017,ac-mozswk9-shard-00-02.lpqipgc.mongodb.net:27017/radourados?ssl=true&replicaSet=atlas-eu5swn-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('\n✅ Banco de Dados MONGODB Conectado!'))
